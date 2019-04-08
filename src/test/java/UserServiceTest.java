@@ -105,7 +105,7 @@ public class UserServiceTest {
 
 
         //given
-        doThrow(new RuntimeException()).when(userDao).deleteUser(any());
+        doThrow(new RuntimeException()).when(userDao).deleteUser(eq(new User("ania13")));
         //when
 
         //then
