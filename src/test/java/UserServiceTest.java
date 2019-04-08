@@ -88,6 +88,21 @@ public class UserServiceTest {
     }
 
     @Test
+    public void shouldReturnTrueIfUserExists2() {
+
+        //given
+        User admin = new User("admin");
+               when(userDao.findUser(eq("admin"))).thenReturn(admin);
+        //when
+        boolean result = userService.doesUserExist("admin");
+        //then
+        assertThat(result).isTrue();
+        verify(userDao, times(1)).findUser("admin");
+        verifyNoMoreInteractions(userDao);
+
+    }
+
+    @Test
     public void shouldReturnFalseIfUserDoesNotExist() {
         when(userDao.findUser(eq("janek1")))
                 .thenReturn(null);
