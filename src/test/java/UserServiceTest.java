@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -76,13 +77,14 @@ public class UserServiceTest {
     public void shouldReturnTrueIfUserExists() {
 
         //given
-        User admin = new User("admin");
-        when(userDao.findUser(eq("admin")))
+        ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
+        when(userDao.findUser(nameCaptor.capture()))
                 .thenReturn(new User("admin"));
         //when
         boolean result = userService.doesUserExist("admin");
         //then
         assertThat(result).isTrue();
+        assertThat(nameCaptor.getValue()).isEqualTo("admin");
     }
 
     @Test
