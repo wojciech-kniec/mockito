@@ -1,7 +1,7 @@
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,16 +91,25 @@ public class UserServiceTest {
                 .thenReturn(null);
 
 
-    //when
-    boolean result = userService.doesUserExist("janek1");
+        //when
+        boolean result = userService.doesUserExist("janek1");
 
-    //then
-    assertThat(result).isFalse();
+        //then
+        assertThat(result).isFalse();
 
     }
 
     @Test
     public void shouldThrowExceptionWhenRemovingNonExistingUser() {
         // Zadanie 5
+
+
+        //given
+        doThrow(new RuntimeException()).when(userDao).deleteUser(any());
+        //when
+
+        //then
+        assertThrows(RuntimeException.class,
+                () -> userService.deleteUser(new User("ania13")));
     }
 }
